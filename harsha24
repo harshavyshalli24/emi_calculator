@@ -1,0 +1,100 @@
+#Harsha Vyshalli V - 19/pcsa/102
+from tkinter import *
+from tkinter import messagebox
+window=Tk()
+window.title("emi calculator")
+
+#creating canvas
+canvas=Canvas(window,height=50,width=275,bg="aqua")
+canvas.pack()
+canvas.create_text(140,25,text="EMI CALCULATOR",font=("Verdana",20,"bold"))
+
+#creating frame
+frame=Frame(window,bd=2,relief="solid")
+frame.pack()
+
+c=Canvas(window,height=1,width=275,bg="white")
+c.pack()
+
+def clearField():
+    entry1.delete(first=0,last=20)
+    entry2.delete(first=0,last=20)
+    entry3.delete(first=0,last=20)
+
+def monthlyTotalPay():
+    la=loanAmount.get()
+    ir=interestRate.get()
+    nm=numberMonths.get()
+    emi=emiCal.get()
+    ti=totalInterest.get()
+    emiCal.set(format((la*ir/1200) / (1- (1/(1+ir/1200)**nm)),"10.2f"))                 #emi
+    totalPayment.set(format((la*ir/1200) / (1- (1/(1+ir/1200)**nm))*nm,"10.2f"))        #total amount to be paid
+    totalInterest.set(format((la*ir/1200) / (1- (1/(1+ir/1200)**nm))*nm-la,"10.2f"))    #total interest for the loan borrowed
+
+def exitScreen():
+    ex=messagebox.askyesno("EMI Calculator","Want to exit?")
+    if ex>0:
+        window.destroy()
+        return
+
+#labels entries and button
+#loan amount
+label1=Label(frame,text="Loan Amount",bd=5,font=("Verdana",11))
+label1.grid(row=1,column=0,sticky=W)
+loanAmount=IntVar()
+entry1=Entry(frame,textvariable=loanAmount,justify=RIGHT)
+entry1.grid(row=1,column=1)
+
+#annual interest rate
+label2=Label(frame,text="Interest Rate(%)",font=("Verdana",11))
+label2.grid(row=2,column=0,sticky=W)
+interestRate=IntVar()
+entry2=Entry(frame,textvariable=interestRate,justify=RIGHT)
+entry2.grid(row=2,column=1)
+
+#number of months
+label3=Label(frame,text="Number Of Months",font=("Verdana",11))
+label3.grid(row=3,column=0,sticky=W)
+numberMonths=IntVar()
+entry3=Entry(frame,textvariable=numberMonths,justify=RIGHT)
+entry3.grid(row=3,column=1)
+
+#reset button
+button2=Button(frame,text="       RESET     ",command=clearField,fg="red",bd=1,relief=SOLID)
+button2.grid(row=4,column=0)
+
+#calculate button
+button1=Button(frame,text="CALCULATE",command=monthlyTotalPay,fg="green",bd=1,relief=SOLID)
+button1.grid(row=4,column=1)
+
+#emi calculation
+label4=Label(frame,text="EMI",font=("Verdana",11))
+label4.grid(row=5,column=0,sticky=W)
+emiCal=IntVar()
+l4=Label(frame,textvariable=emiCal)
+l4.grid(row=5,column=1,sticky=E)
+
+#total interest
+label5=Label(frame,text="Total Interest",font=("Verdana",11))
+label5.grid(row=7,column=0,sticky=W)
+totalInterest=IntVar()
+l5=Label(frame,textvariable=totalInterest)
+l5.grid(row=7,column=1,sticky=E)
+
+#total payment
+label6=Label(frame,text="Total Payment",font=("Verdana",11))
+label6.grid(row=6,column=0,sticky=W)
+totalPayment=IntVar()
+l6=Label(frame,textvariable=totalPayment)
+l6.grid(row=6,column=1,sticky=E)
+
+#exit button
+b1=Button(window,text="EXIT",command=exitScreen,bg="black",fg="white")
+b1.pack()
+
+window.mainloop()
+       
+
+
+
+
